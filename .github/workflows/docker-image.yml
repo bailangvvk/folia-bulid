@@ -28,10 +28,10 @@ jobs:
       run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
     - name: Build the Docker image
-      run: docker build --build-arg FOLIA_VERSION=$VERSION -t endkind/folia:$VERSION .
+      run: docker build --build-arg FOLIA_VERSION=$VERSION -t bailangvvking/folia:$VERSION .
 
     - name: Save Docker image for test job
-      run: docker save endkind/folia:$VERSION > image.tar
+      run: docker save bailangvvking/folia:$VERSION > image.tar
 
     - name: Upload image artifact
       uses: actions/upload-artifact@v4
@@ -71,7 +71,7 @@ jobs:
     - name: Test the Docker image
       run: |
         # Start the container
-        CONTAINER_ID=$(docker run -it -d -p 25565:25565 -e MINECRAFT_EULA=true endkind/folia:$VERSION)
+        CONTAINER_ID=$(docker run -it -d -p 25565:25565 -e MINECRAFT_EULA=true bailangvvking/folia:$VERSION)
 
         # Wait for the container to initialize and check the port from the host
         MAX_RETRIES=60
@@ -142,7 +142,7 @@ jobs:
       run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
     - name: Push the Docker image
-      run: docker push endkind/folia:$VERSION
+      run: docker push bailangvvking/folia:$VERSION
 
   create-issue-on-failure:
     runs-on: ubuntu-latest
